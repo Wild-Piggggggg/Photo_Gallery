@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Photography Gallery</h1>
+            <h3>Welcome! User {{ user_id }}  {{ username }}</h3>
+        </div>
+        <div class="user-menu">
+            <img src="{{ url_for('static', filename='imgs/ali.jpg') }}" alt="User Avatar" class="avatar">
+            <div class="dropdown">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='icons/Personal_info.ico') }}" alt="Personal Information Icon" loading="lazy" class="icon">
+                            Personal Information
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='icons/Settings.ico') }}" alt="Settings Icon" loading="lazy" class="icon">
+                            Settings
+                        </a>
+                    </li>
+                    <li id="divider">
+                        <a href="{{ url_for('logout') }}">
+                            <img src="{{ url_for('static', filename='icons/Logout.ico') }}" alt="Logout Icon" loading="lazy" class="icon">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="gallery">
+            {% if photos is not none %}
+                {% for photo in photos %}
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='uploads/'+user_id + '/' + photo[0]) }}" alt="Photo" loading="lazy">
+                    <button class="delete-btn" data-filename="{{ photo[0] }}">×</button>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="gallery-item" id="upload-item" >
+                <img src="" alt="" data-upload>
+            </div>
+            <input type="file" id="fileInput" style="display: none;" accept="image/*">
+        </div>
+    </main>
+    <div class="lightbox" id="lightbox">
+        <span class="close">&times;</span>
+        <img class="lightbox-content" id="lightbox-content" src="" alt="">
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+</head>
+<body>
+    <div class="profile-card">
+        <div class="avatar">
+            <img src="{{ url_for('static', filename='imgs/avatar.png') }}" alt="User Avatar" id="user-avatar">
+        </div>
+        <h1 class="username">{{ username }}</h1>
+        <p class="user-info">User ID: {{ user_id }}</p>
+        <p class="user-info">Email: john.doe@example.com</p>
+        <p class="user-info">Location: New York, USA</p>
+        <p class="user-info">Member Since: January 2023</p>
+        <div class="buttons">
+            <button class="btn edit-btn">Edit Profile</button>
+            <button class="btn logout-btn">Logout</button>
+        </div>
+    </div>
+    <div id="overlay" class="overlay">
+        <span class="close">&times;</span>
+        <img id="overlay-img" src="{{ url_for('static', filename='imgs/avatar.png') }}" alt="User Avatar">
+    </div>
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+</body>
+</html>

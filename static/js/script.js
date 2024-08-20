@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('lightbox');
     const lightboxContent = document.getElementById('lightbox-content');
     const closeBtn = document.querySelector('.lightbox .close');
-    const deleteButtons = document.querySelectorAll('.delete-btn');
+    // const deleteButtons = document.querySelectorAll('.delete-btn');
 
     // 触发图片放大效果
     galleryItems.forEach(item => {
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 判断点击是否在删除按钮上
             if (e.target.classList.contains('delete-btn')){
                 e.preventDefault();  // 阻止默认事件
-                event.stopPropagation(); // 阻止事件冒泡
+                // e.stopPropagation(); // 阻止事件冒泡
                 const filename = e.target.getAttribute('data-filename');
 
                 if (confirm('Are you sure you want to delete this photo?')) {
@@ -48,6 +48,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // 修改图片src
+    document.querySelectorAll('img.lazy').forEach(img => {
+        img.addEventListener('click', function() {
+            const thumbnailSrc = img.src;  // 保存缩略图路径
+            img.src = img.dataset.full;  // 更改为高质量图片路径
+
+            // 恢复缩略图路径
+            closeBtn.addEventListener('click', () => {
+                img.src = thumbnailSrc;
+                lightbox.style.display = 'none';
+            });
+        
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    img.src = thumbnailSrc;
+                    lightbox.style.display = 'none';
+                }
+            });
+            lightbox.style.display = 'flex';
+
+        });
+    });
+
     closeBtn.addEventListener('click', () => {
         lightbox.style.display = 'none';
     });
@@ -57,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             lightbox.style.display = 'none';
         }
     });
+
 
     // 头像点击触发事件
     const avatar = document.querySelector('.avatar');

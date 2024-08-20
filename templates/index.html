@@ -10,15 +10,15 @@
 <body>
     <header>
         <div class="header-content">
-            <h1>Photography Gallery</h1>
-            <h3>Welcome! User {{ user_id }}  {{ username }}</h3>
+            <h1>Photo Gallery</h1>
+            <h3>Welcome! User No.{{ user_id }}   {{ username }}</h3>
         </div>
         <div class="user-menu">
-            <img src="{{ url_for('static', filename='imgs/ali.jpg') }}" alt="User Avatar" class="avatar">
+            <img src="{{ url_for('static', filename='imgs/avatar.png') }}" alt="User Avatar" class="avatar">
             <div class="dropdown">
                 <ul>
                     <li>
-                        <a href="#">
+                        <a href="{{ url_for('personal_info', user_id=user_id) }}" target="_blank">
                             <img src="{{ url_for('static', filename='icons/Personal_info.ico') }}" alt="Personal Information Icon" loading="lazy" class="icon">
                             Personal Information
                         </a>
@@ -44,7 +44,8 @@
             {% if photos is not none %}
                 {% for photo in photos %}
                 <div class="gallery-item">
-                    <img src="{{ url_for('static', filename='uploads/'+user_id + '/' + photo[0]) }}" alt="Photo" loading="lazy">
+                    <img src="{{ url_for('static', filename='uploads/' + user_id + '/' + photo[0].split('.')[0] + '.webp') }}" data-full="{{ url_for('static', filename='uploads/' + user_id + '/' + photo[0]) }}" class="lazy" alt="Photo" loading="lazy">
+                    <!-- <img src="{{ url_for('static', filename='uploads/' + user_id + '/' + photo[0]) }}" alt="Photo" loading="lazy"> -->
                     <button class="delete-btn" data-filename="{{ photo[0] }}">×</button>
                 </div>
                 {% endfor %}

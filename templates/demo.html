@@ -9,32 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 </head>
 <body>
-    <h1>Register</h1>
-    <form method="POST" action="{{ url_for('register') }}">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
-        <label for="email">Email:</label>
-        <input type="email" name="email" required>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-        <button type="submit">Register</button>
-    </form>
-
-    <!-- JavaScript to trigger SweetAlert pop-ups -->
-    <script>
-        // Use get_flashed_messages to access flash messages
-        { % with messages = get_flashed_messages(with_categories=true) % }
-            {% if messages %}
-                {% for category, message in messages %}
-                    Swal.fire({
-                        icon: '{{ category }}', // 'success', 'error', 'warning', etc.
-                        title: '{{ message }}',
-                        timer: 3000,
-                        showConfirmButton: false
-                    });
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </script>
+    <img src="../static/displays/b1.jpg" data-full="../static/displays/b2.jpg" class="lazy">
 </body>
 </html>

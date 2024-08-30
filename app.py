@@ -48,6 +48,7 @@ def register():
             mysql.connection.commit()
         except Exception as e:
             # Handle exception or duplicate entries
+            # print(e)
             return redirect(url_for('register',error='database_error'))
         finally:
             cursor.close()

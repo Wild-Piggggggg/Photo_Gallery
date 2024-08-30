@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Photo Gallery</h1>
+            <!-- <h3>Welcome! User No.{{ user_id }}   {{ username }}</h3> -->
+        </div>
+        <div class="user-menu">
+            <img src="{{ url_for('static', filename='imgs/visitor.webp') }}" alt="User Avatar" class="avatar">
+            <div class="dropdown">
+                <ul>
+                    <li>
+                        <a href="{{ url_for('register') }}">
+                            <img src="{{ url_for('static', filename='icons/register.ico') }}" alt="Register Icon" loading="lazy" class="icon">
+                            Register
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('login') }}">
+                            <img src="{{ url_for('static', filename='icons/login.ico') }}" alt="Login Icon" loading="lazy" class="icon">
+                            Login
+                        </a>
+                    </li>
+                    <!-- <li id="divider">
+                        <a href="{{ url_for('logout') }}">
+                            <img src="{{ url_for('static', filename='icons/Logout.ico') }}" alt="Logout Icon" loading="lazy" class="icon">
+                            Logout
+                        </a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="gallery">
+            
+            {% if photos is not none %}
+                {% for photo in photos %}
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='displays/' + photo.split('.')[0] + '.webp') }}" data-full="{{ url_for('static', filename='displays/' + photo) }}" class="lazy" alt="Photo" loading="lazy">
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- <div class="gallery-item" id="upload-item" >
+                <img src="" alt="" data-upload>
+            </div>
+            <input type="file" id="fileInput" style="display: none;" accept="image/*"> -->
+        </div>
+    </main>
+    <div class="lightbox" id="lightbox">
+        <span class="close">&times;</span>
+        <img class="lightbox-content" id="lightbox-content" src="" alt="">
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</body>
+</html>

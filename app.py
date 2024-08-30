@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from config import Config
 import os
 from functools import wraps
+from PIL import Image
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -19,7 +20,7 @@ def login_required(f):
 
 @app.route("/")
 def main():
-    return redirect(url_for('login'))
+    return redirect(url_for('display'))
     # return render_template("index.html",photos=None)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -108,6 +109,11 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
 
+@app.route('/index/<int:user_id>/personal_info')
+def personal_info(user_id):
+    username = session.get('username', 'Guest')
+    return render_template('user.html',user_id=user_id, username=username)
+
 @app.route("/upload", methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -117,9 +123,13 @@ def upload_file():
     if file.filename == '':
         return jsonify({'success': False, 'error': 'No selected file'})
 
-    # 保存文件
+    # 保存文件和webp文件
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
     file.save(file_path)
+
+    img = Image.open(file_path)
+    webp_path = os.path.splitext(file_path)[0] + '.webp'
+    img.save(webp_path, 'webp', quality=85)
 
     # 将文件信息插入数据库
     cursor = mysql.connection.cursor()
@@ -146,14 +156,23 @@ def delete_photo():
 
     # 删除文件系统中的文件
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    webp_path = os.path.splitext(file_path)[0] + '.webp'
     try:
         if os.path.exists(file_path):
             os.remove(file_path)
+            os.remove(webp_path)
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
     cursor.close()
     return jsonify({'success': True})
+
+
+@app.route('/vistor')
+def display():
+    photos = [file for file in os.listdir('static/displays') if file.endswith(('.jpg','png',))]
+    print(photos)
+    return render_template("visitor.html",photos=photos)
 
 
 if __name__ == "__main__":
